@@ -29,7 +29,7 @@ export default class Auth extends Component {
         if(this.state.stageNew) {
             this.signup()
         }else {
-            Alert.alert('Sucesso', 'Logar')
+            this.signin()
         }
     }
 
@@ -47,6 +47,22 @@ export default class Auth extends Component {
         }catch(err) {
             showError(err)
         }
+    }
+
+    signin = async () => {
+        try {
+           const res =  await axios.post(`${server}/signin`, {
+                email: this.state.email,
+                password: this.state.password
+            })
+
+            axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}` // colocando o token gravado no banco de dados dentro do Header bearer
+            this.props.navigation.navigate('Home')// Indo para a pagina home depois de logar e registrar o token no Header
+           
+        }catch(e){
+            showError(e)
+        }
+
     }
 
     render(){
