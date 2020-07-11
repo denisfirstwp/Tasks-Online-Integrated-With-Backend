@@ -10,7 +10,7 @@ export default class Auth extends Component {
         email: '',
         password: '',
         confirmPassword:'',
-        stageNew: true // quer dizer que estou na tela de criacao de novo usuario
+        stageNew: false // quer dizer que estou na tela de criacao de novo usuario
     }
 
     signinOrSignup = () => {
