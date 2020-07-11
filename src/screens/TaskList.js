@@ -5,10 +5,12 @@ import {Alert, View, Text, ImageBackground, StyleSheet, FlatList, TouchableOpaci
 
 
 import Icon from 'react-native-vector-icons/FontAwesome'
+import axios from 'axios'
 import moment from 'moment'
 import 'moment/locale/pt-br' // traduz o valor das datas para o portugues
 import AsyncStorage from '@react-native-community/async-storage'
 
+import {server, showError} from '../common'
 import Task from '../components/Tasks'
 import AddTask from './AddTask'
 import commonStyles from '../commonStyles'
@@ -29,9 +31,24 @@ export default class TaskList extends Component {
 
     componentDidMount = async () => {
         const  stateString = await AsyncStorage.getItem('ZICA')
-        const state = JSON.parse(stateString) || initialState
+        const savedState = JSON.parse(stateString) || initialState
+        this.setState({
+            showDoneTasks: savedState.showDoneTasks
+        }, this.filterTasks)
 
-        this.setState(state, this.filterTasks)
+        this.loadTasks()
+    }
+
+    loadTasks = async  () => {
+
+        try{
+            const maxDate = moment().format('YYYY-MM-DD 23:59:59') // passing the date of today, with the format that is accepted for the Postgree
+            const res = await axios.get(`${server}/tasks?date=${maxDate}`)
+            this.setState({ tasks: res.data}, this.filterTasks) // returning the tasks for today's date
+        }catch(e){
+            showError(e)
+        }
+
     }
 
     toggleFilter =  () => {
@@ -52,8 +69,8 @@ export default class TaskList extends Component {
         this.setState({visibleTasks:visibleTasks})
         //console.log(JSON.stringify(this.state))
 
-        await AsyncStorage.setItem('ZICA', JSON.stringify(this.state))
-        console.log( await AsyncStorage.getItem('ZICA'))
+        await AsyncStorage.setItem('ZICA', JSON.stringify({showDoneTasks: this.state.showDoneTasks}))
+        
         
     }
 

@@ -12,8 +12,8 @@ import axios from 'axios'
 const initialState = {
         
     name:'',
-        email: '',
-        password: '',
+        email: 'denisfirstwp@gmail.com',
+        password: '123456',
         confirmPassword:'',
         stageNew: false // altera entre a tela de login e cadastro
 }
