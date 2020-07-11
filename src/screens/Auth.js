@@ -67,6 +67,19 @@ export default class Auth extends Component {
 
     render(){
 
+        const validations = []
+        validations.push(this.state.email && this.state.email.includes('@')) // validando campo email
+        validations.push(this.state.password && this.state.password.length >= 6 ) // tem que ter no minimo uma senha de 6 digitos
+
+        if(this.state.stageNew) {
+            validations.push(this.state.name && this.state.name.trim().length >= 3) //só coloca o nome no vetor se o nome for maior ou igual a 3 letras
+            validations.push(this.state.confirmPassword) // coloca a confirmaçao de senha no vetor
+            validations.push(this.state.password === this.state.confirmPassword ) // só coloca a senha no vetor se  a senha for igual ao confirmar senha
+        }
+
+        const validForm = validations.reduce((total, atual)=> total && atual) // so tem um formulario valido se todas as validaçoes anteriores forem verdadeiras
+
+
         return(
             
             <ImageBackground source={backgroundImage}
@@ -102,8 +115,9 @@ export default class Auth extends Component {
                     onChangeText={confirmPassword => this.setState({ confirmPassword })} 
                     secureTextEntry={true} />}
 
-                    <TouchableOpacity onPress={this.signinOrSignup} >
-                        <View style={styles.button}>
+                    <TouchableOpacity onPress={this.signinOrSignup}
+                    disabled={!validForm} /*desabilita o botao se eu nao tiver um formulario valido */ > 
+                        <View style={[styles.button, validForm ? {} : {backgroundColor: '#AAA'}]}>
                             <Text style={styles.buttonText}>{this.state.stageNew ? 'Registrar': 'Entrar'}</Text>
                         </View>
                     </TouchableOpacity>
