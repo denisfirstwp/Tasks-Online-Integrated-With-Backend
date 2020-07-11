@@ -4,21 +4,48 @@ import {ImageBackground, Text, View, StyleSheet, TextInput, TouchableOpacity, Pl
 import backgroundImage from '../../assets/imgs/login.jpg'
 import commonStyles from '../commonStyles'
 import AuthInput from '../components/AuthInput'
-export default class Auth extends Component {
+import {server, showError, showSuccess} from '../common'
 
-    state= {
-        name:'',
+
+import axios from 'axios'
+
+const initialState = {
+        
+    name:'',
         email: '',
         password: '',
         confirmPassword:'',
-        stageNew: false // quer dizer que estou na tela de criacao de novo usuario
-    }
+        stageNew: false // altera entre a tela de login e cadastro
+}
+
+export default class Auth extends Component {
+
+    state= { 
+        ...initialState 
+    } 
+    
 
     signinOrSignup = () => {
         if(this.state.stageNew) {
-            Alert.alert('Sucesso !', 'Criar conta')
+            this.signup()
         }else {
             Alert.alert('Sucesso', 'Logar')
+        }
+    }
+
+    signup = async () => {
+        try {
+            await axios.post(`${server}/signup`, {
+                name: this.state.name,
+                email:this.state.email,
+                password: this.state.password,
+                confirmPassword: this.state.confirmPassword
+            })
+
+            showSuccess('Usuario cadastrado com sucesso !')
+            this.setState({ ...initialState })
+        }catch(err) {
+            showError(err)
         }
     }
 
