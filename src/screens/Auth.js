@@ -68,16 +68,17 @@ export default class Auth extends Component {
     render(){
 
         const validations = []
-        validations.push(this.state.email && this.state.email.includes('@')) // validando campo email
-        validations.push(this.state.password && this.state.password.length >= 6 ) // tem que ter no minimo uma senha de 6 digitos
+        validations.push(/*this.state.email && */this.state.email.includes('@')) // validando campo email
+        validations.push(/*this.state.password && */this.state.password.length >= 6 ) // tem que ter no minimo uma senha de 6 digitos
 
         if(this.state.stageNew) {
-            validations.push(this.state.name && this.state.name.trim().length >= 3) //só coloca o nome no vetor se o nome for maior ou igual a 3 letras
+            validations.push(/*this.state.name && */this.state.name.trim().length >= 3) //só coloca o nome no vetor se o nome for maior ou igual a 3 letras
             validations.push(this.state.confirmPassword) // coloca a confirmaçao de senha no vetor
             validations.push(this.state.password === this.state.confirmPassword ) // só coloca a senha no vetor se  a senha for igual ao confirmar senha
+            console.log(validations)
         }
 
-        const validForm = validations.reduce((total, atual)=> total && atual) // so tem um formulario valido se todas as validaçoes anteriores forem verdadeiras
+        const validForm = validations.reduce((total, atual)=> total && atual) // so tem um formulario valido se todas as validaçoes anteriores forem verdadeiras.
 
 
         return(
@@ -100,7 +101,7 @@ export default class Auth extends Component {
                     style={styles.input} 
                     onChangeText={email => this.setState({ email })} />
 
-                    <AuthInput icon='lock' 
+                    <AuthInput icon='lock'
                     placeholder='Senha' 
                     value={this.state.password}
                     style={styles.input} 

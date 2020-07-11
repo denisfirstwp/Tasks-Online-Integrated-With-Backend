@@ -10,7 +10,6 @@ export default props => {
 
     return (
         <View style={[styles.container, props.style]}>
-             {console.log(props.placeholder)}
             <Icon name={props.icon} size={20} style={styles.icon} />
             <TextInput {...props} style={styles.input} />
         </View>
