@@ -75,43 +75,49 @@ export default class TaskList extends Component {
     }
 
    
-    toggleTask = (taskId) => {
-
-        const tasks = [...this.state.tasks] //criando uma copia do array com spread
+    toggleTask = async taskId => {
         
-        tasks.forEach(task => {
-            if(task.id===taskId){
-                task.doneAt = task.doneAt ? null : new Date()
-            } 
-        })
-
-        this.setState({tasks : tasks}, this.filterTasks) // executar a funcao filterTasks depois de alter o checked
-
+        try {
+            await axios.put(`${server}/tasks/${taskId}/toggle`)
+            await this.loadTasks()
+        } catch(error) {
+            showError(error)
+        }
+      
     }
 
-    addTask = (newTask) => {
-
-        if(!newTask.desc || !newTask.desc.trim()) { //SE A STRING FOR FALSA ENTRE
+    addTask = async newTask => {
+        
+        if(!newTask.desc || !newTask.desc.trim()) { //SE A STRING FOR FALSA ENTRE          
             Alert.alert('Dados Inválidos', 'Descrição não informada !')
             return
         }
 
-        const tasks = [...this.state.tasks]
+       try{
+           
+           await axios.post(`${server}/tasks`,  // url para cadastrar nova task no banco de dados
+               {
+               desc: newTask.desc,
+               estimateAt: newTask.date 
+           })
+           
+           this.setState({showAddTask: false}, this.loadTasks)
+           
+        } catch(error){
+            showError(error)
+        }
+        
 
-        tasks.push({
-            id:Math.random(),
-            desc: newTask.desc,
-            estimateAt: newTask.date,
-            doneAt:null
-        })
-
-        this.setState({tasks, showAddTask: false}, this.filterTasks)
         
     }
 
-    deleteTask = id => {
-        const tasks = this.state.tasks.filter(task => task.id !== id)
-        this.setState({ tasks: tasks }, this.filterTasks)
+    deleteTask = async taskId => {
+       try{
+           await axios.delete(`${server}/tasks/${taskId}`)
+           this.loadTasks()
+       }catch(e){
+           showError(e)
+       }
     }
 
 
