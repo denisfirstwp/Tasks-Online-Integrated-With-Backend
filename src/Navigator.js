@@ -8,28 +8,28 @@ import TaskList from './screens/TaskList'
 const menuRoutes = {
     Today:{
         name: 'Today',
-        screen: props =><TaskList tile='Hoje' dasysAhead={0} {...props} />,
+        screen: props =><TaskList title='Hoje' daysAhead={0} {...props} />,
         navigationOptions:{
             tilte: 'Hoje'
         }
     },
     Tomorrow:{
         name: 'Tomorrow',
-        screen: props =><TaskList tile='Amanhã' dasysAhead={1} {...props} />,
+        screen: props =><TaskList title='Amanhã' daysAhead={1} {...props} />,
         navigationOptions:{
             tilte: 'Amanhã'
         }
     },
     Week:{
         name: 'Week',
-        screen: props =><TaskList tile='Semana' dasysAhead={7} {...props} />,
+        screen: props =><TaskList title='Semana' daysAhead={7} {...props} />,
         navigationOptions:{
             tilte: 'Semana'
         }
     },
     Month:{
         name: 'Month',
-        screen: props =><TaskList tile='Mês' dasysAhead={30} {...props} />,
+        screen: props =><TaskList title='Mês' daysAhead={30} {...props} />,
         navigationOptions:{
             tilte: 'Mês'
         }
