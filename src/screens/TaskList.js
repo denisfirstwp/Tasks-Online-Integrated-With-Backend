@@ -14,7 +14,12 @@ import {server, showError} from '../common'
 import Task from '../components/Tasks'
 import AddTask from './AddTask'
 import commonStyles from '../commonStyles'
+
 import todayImage from '../../assets/imgs/today.jpg';
+import tomorrowImage from '../../assets/imgs/tomorrow.jpg';
+import weekImage from '../../assets/imgs/week.jpg';
+import monthImage from '../../assets/imgs/month.jpg';
+
 
 const initialState = {
     showDoneTasks: true,
@@ -120,6 +125,24 @@ export default class TaskList extends Component {
        }
     }
 
+    getImage = () =>{
+        switch(this.props.daysAhead) {
+            case 0: return todayImage
+            case 1: return tomorrowImage
+            case 7: return weekImage
+            default: return monthImage
+        }
+    }
+
+    getColor = () =>{
+        switch(this.props.daysAhead) {
+            case 0: return commonStyles.colors.today
+            case 1: return commonStyles.colors.tomorrow
+            case 7: return commonStyles.colors.week
+            default: return commonStyles.colors.month   
+        }
+    }
+
 
     // Componente baseado em classe precisa definir função render
     render(){
@@ -130,7 +153,7 @@ export default class TaskList extends Component {
                 isVisible={this.state.showAddTask} 
                 onCancel={() => this.setState({showAddTask:false})}
                 onSave={this.addTask} />
-                <ImageBackground style={styles.background} source={todayImage } >
+                <ImageBackground style={styles.background} source={this.getImage()} >
                     <View style={styles.iconBar}> 
                     <TouchableOpacity onPress={()=> this.props.navigation.openDrawer()}>
                         <Icon name='bars'
@@ -155,7 +178,9 @@ export default class TaskList extends Component {
                 onDelete={this.deleteTask} />} // renderizando componente array com valores do array
                 />
                 </View>
-                <TouchableOpacity style={styles.addButton}
+                <TouchableOpacity style={[
+                    styles.addButton,
+                    {backgroundColor: this.getColor()}]}
                  onPress={()=> this.setState({showAddTask:true})}
                  activeOpacity={0.7}>
                     <Icon name="plus" size={20} color={commonStyles.colors.secundary} />
@@ -211,7 +236,6 @@ const styles = StyleSheet.create({
         width:50,
         height:50,
         borderRadius:25,
-        backgroundColor:commonStyles.colors.today,
         justifyContent:'center',
         alignItems:'center'
     }
