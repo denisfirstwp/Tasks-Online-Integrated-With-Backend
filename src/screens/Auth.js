@@ -57,7 +57,7 @@ export default class Auth extends Component {
             })
 
             axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}` // colocando o token gravado no banco de dados dentro do Header bearer
-            this.props.navigation.navigate('Home')// Indo para a pagina home depois de logar e registrar o token no Header
+            this.props.navigation.navigate('Home', res.data)// Indo para a pagina home depois de logar e registrar o token no Header - res.data como parametro
            
         }catch(e){
             showError(e)
