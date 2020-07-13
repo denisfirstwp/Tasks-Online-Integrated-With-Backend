@@ -2,6 +2,26 @@ import React from 'react'
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 import {createDrawerNavigator} from 'react-navigation-drawer'
 
+import Menu from './screens/Menu'
+import commonStyles from './commonStyles'
+
+const menuConfig = {
+    initialRouteName:'Today',
+    contentComponent: Menu,
+    contentOptions: {
+        labelStyle: {
+             fontFamily: commonStyles.fontFamily,
+             fontWeight:'normal',
+             fontSize:20 
+        },
+        activeLabelStyle: {
+            fontWeight: 'bold',
+            color:'#080'
+
+        }
+    }
+}
+
 import Auth from './screens/Auth'
 import TaskList from './screens/TaskList'
 
@@ -37,7 +57,7 @@ const menuRoutes = {
 
 }
 
-const menuNavigator = createDrawerNavigator(menuRoutes)
+const menuNavigator = createDrawerNavigator(menuRoutes, menuConfig) // passando Menu routes e depois passando a estilizacao com o MenuConfig
 
 const mainRoutes = { // Criando as rotas
     Auth: {
