@@ -57,7 +57,8 @@ export default class Auth extends Component {
                 email: this.state.email,
                 password: this.state.password
             })
-            |AsyncStorage.setItem('userData',JSON.stringify(res.data))
+            
+            await AsyncStorage.setItem('userData',JSON.stringify(res.data))
             axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}` // colocando o token gravado no banco de dados dentro do Header bearer
             this.props.navigation.navigate('Home', res.data)// Indo para a pagina home depois de logar e registrar o token no Header - res.data como parametro
            
