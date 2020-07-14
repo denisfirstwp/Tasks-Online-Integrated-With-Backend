@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ImageBackground, Text, View, StyleSheet, TextInput, TouchableOpacity, Platform, Alert} from 'react-native'
+import { ImageBackground, Text, View, StyleSheet, TextInput, TouchableOpacity, Platform, Alert} from 'react-native'
 
 import backgroundImage from '../../assets/imgs/login.jpg'
 import commonStyles from '../commonStyles'
@@ -7,13 +7,15 @@ import AuthInput from '../components/AuthInput'
 import {server, showError, showSuccess} from '../common'
 
 
+import AsyncStorage from '@react-native-community/async-storage'
 import axios from 'axios'
+
 
 const initialState = {
         
     name:'',
-        email: 'denisfirstwp@gmail.com',
-        password: '123456',
+        email: '',
+        password: '',
         confirmPassword:'',
         stageNew: false // altera entre a tela de login e cadastro
 }
@@ -55,11 +57,12 @@ export default class Auth extends Component {
                 email: this.state.email,
                 password: this.state.password
             })
-
+            |AsyncStorage.setItem('userData',JSON.stringify(res.data))
             axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}` // colocando o token gravado no banco de dados dentro do Header bearer
             this.props.navigation.navigate('Home', res.data)// Indo para a pagina home depois de logar e registrar o token no Header - res.data como parametro
            
         }catch(e){
+            
             showError(e)
         }
 

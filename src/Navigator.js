@@ -27,11 +27,7 @@ import Auth from './screens/Auth'
 import TaskList from './screens/TaskList'
 
 const menuRoutes = {
-    AuthOrApp:{ // esta rota define se o usuario vai para a tela de login ou para home ja logado
-        name:'AuthOrApp',
-        screen: AuthOrApp
-
-    },
+    
     Today:{
         name: 'Today',
         screen: props =><TaskList title='Hoje' daysAhead={0} {...props} />,
@@ -66,6 +62,12 @@ const menuRoutes = {
 const menuNavigator = createDrawerNavigator(menuRoutes, menuConfig) // passando Menu routes e depois passando a estilizacao com o MenuConfig
 
 const mainRoutes = { // Criando as rotas
+
+    AuthOrApp:{ // esta rota define se o usuario vai para a tela de login ou para home ja logado
+        name:'AuthOrApp',
+        screen: AuthOrApp
+    },
+
     Auth: {
         name:'Auth',
         screen: Auth
