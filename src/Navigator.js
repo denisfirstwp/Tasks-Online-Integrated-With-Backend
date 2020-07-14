@@ -3,6 +3,7 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 import {createDrawerNavigator} from 'react-navigation-drawer'
 
 import Menu from './screens/Menu'
+import AuthOrApp from './screens/AuthOrApp'
 import commonStyles from './commonStyles'
 
 const menuConfig = {
@@ -26,6 +27,11 @@ import Auth from './screens/Auth'
 import TaskList from './screens/TaskList'
 
 const menuRoutes = {
+    AuthOrApp:{ // esta rota define se o usuario vai para a tela de login ou para home ja logado
+        name:'AuthOrApp',
+        screen: AuthOrApp
+
+    },
     Today:{
         name: 'Today',
         screen: props =><TaskList title='Hoje' daysAhead={0} {...props} />,
@@ -72,7 +78,7 @@ const mainRoutes = { // Criando as rotas
 }
 
 const mainNavigator = createSwitchNavigator(mainRoutes, {
-    initialRouteName:'Auth'
+    initialRouteName:'AuthOrApp' // INITIAL ROUTE DEFINE A PRIMEIRA ROTA
 })
 
 export default createAppContainer(mainNavigator)
